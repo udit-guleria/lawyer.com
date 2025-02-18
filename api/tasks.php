@@ -31,10 +31,14 @@ switch($method) {
         try {
             $pdo->beginTransaction();
             
+            // Generate UUID for the task
+            $taskId = $pdo->query("SELECT UUID()")->fetchColumn();
+            
             $stmt = $pdo->prepare("INSERT INTO Task (id, title, description, lead_id, created_by, 
                                   due_date, priority, status) 
-                                  VALUES (UUID(), ?, ?, ?, ?, ?, ?, ?)");
+                                  VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
+                $taskId, // Use the generated UUID
                 $data['title'],
                 $data['description'],
                 $data['lead_id'],
@@ -43,8 +47,6 @@ switch($method) {
                 $data['priority'] ?? 'MEDIUM',
                 $data['status'] ?? 'NEW'
             ]);
-            
-            $taskId = $pdo->lastInsertId();
             
             // Add assignees if provided
             if (!empty($data['assignees'])) {
