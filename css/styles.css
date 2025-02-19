@@ -313,4 +313,46 @@ body {
 
 .d-flex.justify-content-between.mb-3 {
     padding: 0 8px;  /* Fine-tune alignment with table cells */
+}
+
+/* Chart panel layout */
+.dashboard-charts {
+    margin-bottom: 20px;  /* Reduced margin before logs */
+}
+
+.chart-container {
+    width: 90%;  /* Slightly smaller width */
+    padding: 8px;  /* Reduced padding */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Reduced heights for all charts */
+.chart-container {
+    height: 220px;  /* Smaller default height */
+}
+
+/* First row charts */
+.row:first-of-type .chart-container {
+    height: 250px;  /* Slightly larger for first row */
+}
+
+.chart-image {
+    border: 2px solid #000;
+    border-radius: 6px;  /* Slightly reduced border radius */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Adjust card padding */
+.card-body {
+    background-color: #fff;
+    padding: 0.75rem;  /* Reduced padding */
+}
+
+/* Adjust row spacing */
+.row.mb-4 {
+    margin-bottom: 1rem !important;  /* Reduced margin between rows */
 } 
