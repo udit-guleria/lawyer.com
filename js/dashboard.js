@@ -138,6 +138,15 @@ async function saveTask() {
     const form = document.getElementById('taskForm');
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
+    
+    // Ensure lead_id is included in the data
+    if (!data.lead_id) {
+        const leadIdInput = form.querySelector('input[name="lead_id"]');
+        if (leadIdInput) {
+            data.lead_id = leadIdInput.value;
+        }
+    }
+    
     data.created_by = currentUser.id;
     const isEdit = !!data.id;
 
@@ -181,8 +190,17 @@ function createTaskForLead(lead) {
     const leadSelectGroup = form.querySelector('.lead-select-group');
     leadSelectGroup.style.display = 'none';
     
-    // Set the lead_id
-    form.elements['lead_id'].value = lead.id;
+    // Create a hidden input for lead_id if it doesn't exist
+    let leadIdInput = form.querySelector('input[name="lead_id"]');
+    if (!leadIdInput) {
+        leadIdInput = document.createElement('input');
+        leadIdInput.type = 'hidden';
+        leadIdInput.name = 'lead_id';
+        form.appendChild(leadIdInput);
+    }
+    
+    // Set the lead_id value
+    leadIdInput.value = lead.id;
     
     // Update modal title to indicate we're creating task for specific lead
     const modalTitle = document.querySelector('#taskModal .modal-title');
