@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 $host = 'localhost';
 $dbname = 'crm_system';
 $username = 'root';  // Change if different
-$password = 'lawyer.com';      // Change if different
+$password = '';      // Change if different
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);

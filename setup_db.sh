@@ -2,7 +2,7 @@
 
 # Database credentials
 DB_USER="root"
-DB_PASS="lawyer.com"  # Change this to your MySQL root password
+DB_PASS=""  # Change this to your MySQL root password
 
 # Execute the SQL script
 mysql -u "$DB_USER" -p"$DB_PASS" < setup_database.sql
