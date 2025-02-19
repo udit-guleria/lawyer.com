@@ -16,13 +16,25 @@ body {
 .navbar {
     background: var(--light-blue);
     color: var(--dark-blue);
-    border-bottom: 1px solid #e5e9f2;
+    border-bottom: 1px solid rgba(0, 51, 102, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 51, 102, 0.05);
+    padding: 0.5rem 0;
 }
 
 .navbar-brand {
     color: var(--dark-blue) !important;
-    font-weight: 600;
-    font-size: 1.25rem;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.8px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding: 0.75rem 0;
+    position: relative;
+    text-transform: uppercase;
+    font-feature-settings: "ss01" on, "ss02" on;
+}
+
+.navbar-brand::after {
+    display: none;
 }
 
 .sidebar {
