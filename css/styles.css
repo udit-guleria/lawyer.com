@@ -173,4 +173,63 @@ body {
 .badge.bg-proposal { background-color: #F59E0B !important; }
 .badge.bg-negotiation { background-color: #7C3AED !important; }
 .badge.bg-closed-won { background-color: var(--secondary-color) !important; }
-.badge.bg-closed-lost { background-color: #DC2626 !important; } 
+.badge.bg-closed-lost { background-color: #DC2626 !important; }
+
+.social-login {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.divider span {
+    padding: 0 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.social-btn img {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+.social-btn:hover {
+    background-color: #f8f8f8;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.google-btn {
+    color: #757575;
+}
+
+.microsoft-btn {
+    color: #5e5e5e;
+} 
