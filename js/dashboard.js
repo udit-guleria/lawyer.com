@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         document.getElementById('users-tab').style.display = 'none';
     }
+
+    // Add reset handler for new lead button
+    document.querySelector('[data-bs-target="#leadModal"]').addEventListener('click', resetLeadModal);
 });
 
 async function loadLeads() {
@@ -189,6 +192,17 @@ function editLead(lead) {
         const input = form.elements[key];
         if (input) input.value = lead[key];
     });
+    
+    // Update modal title and description
+    const modalTitle = document.querySelector('#leadModal .modal-title');
+    modalTitle.textContent = 'Edit Lead';
+    const modalDescription = modalTitle.nextElementSibling;
+    modalDescription.textContent = 'Update lead information';
+    
+    // Update save button text
+    const saveButton = document.getElementById('saveLead');
+    saveButton.innerHTML = '<i class="bi bi-check-circle me-1"></i>Update Lead';
+    
     const modal = new bootstrap.Modal(document.getElementById('leadModal'));
     modal.show();
 }
@@ -368,6 +382,21 @@ function editTask(task) {
     // Show the modal
     const modal = new bootstrap.Modal(document.getElementById('taskModal'));
     modal.show();
+}
+
+function resetLeadModal() {
+    const form = document.getElementById('leadForm');
+    form.reset();
+    
+    // Reset modal title and description
+    const modalTitle = document.querySelector('#leadModal .modal-title');
+    modalTitle.textContent = 'Create New Lead';
+    const modalDescription = modalTitle.nextElementSibling;
+    modalDescription.textContent = 'Add a new potential client to your pipeline';
+    
+    // Reset save button text
+    const saveButton = document.getElementById('saveLead');
+    saveButton.innerHTML = '<i class="bi bi-plus-circle me-1"></i>Create Lead';
 }
 
 // ... rest of existing code ... 
