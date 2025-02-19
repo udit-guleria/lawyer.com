@@ -24,20 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('saveLead').addEventListener('click', saveLead);
     document.getElementById('saveTask').addEventListener('click', saveTask);
 
-    // Add handler for the "New Task" button
-    document.querySelector('[data-bs-target="#taskModal"]').addEventListener('click', function() {
-        const form = document.getElementById('taskForm');
-        form.reset();
-        
-        // Show the lead selection dropdown for new standalone tasks
-        const leadSelectGroup = form.querySelector('.lead-select-group');
-        leadSelectGroup.style.display = 'block';
-        
-        // Reset modal title
-        const modalTitle = document.querySelector('#taskModal .modal-title');
-        modalTitle.textContent = 'Task Details';
-    });
-
     // Setup user management if current user is admin
     if (currentUser.type === 'ADMIN') {
         loadUsers();
