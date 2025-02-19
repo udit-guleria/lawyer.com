@@ -14,13 +14,15 @@ body {
 }
 
 .navbar {
-    background: linear-gradient(to right, var(--dark-blue), var(--primary-color));
-    color: white;
+    background: var(--light-blue);
+    color: var(--dark-blue);
+    border-bottom: 1px solid #e5e9f2;
 }
 
 .navbar-brand {
-    color: white !important;
+    color: var(--dark-blue) !important;
     font-weight: 600;
+    font-size: 1.25rem;
 }
 
 .sidebar {
