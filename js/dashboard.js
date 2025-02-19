@@ -72,8 +72,21 @@ async function loadLeads() {
 
 async function loadTasks() {
     try {
-        const response = await fetch('api/tasks.php');
-        const tasks = await response.json();
+        // Fetch both tasks and leads
+        const [tasksResponse, leadsResponse] = await Promise.all([
+            fetch('api/tasks.php'),
+            fetch('api/leads.php')
+        ]);
+        
+        const tasks = await tasksResponse.json();
+        const leads = await leadsResponse.json();
+        
+        // Create a map of lead IDs to lead names for quick lookup
+        const leadMap = leads.reduce((map, lead) => {
+            map[lead.id] = lead.name;
+            return map;
+        }, {});
+
         const tbody = document.querySelector('#tasksTable tbody');
         tbody.innerHTML = '';
 
@@ -83,7 +96,7 @@ async function loadTasks() {
             const taskJson = JSON.stringify(task).replace(/'/g, '&#39;').replace(/"/g, '&quot;');
             tr.innerHTML = `
                 <td>${task.title}</td>
-                <td>${task.lead_id}</td>
+                <td>${leadMap[task.lead_id] || 'Unknown Lead'}</td>
                 <td>${task.due_date}</td>
                 <td><span class="badge ${getStatusBadgeClass(task.status)}">${task.status}</span></td>
                 <td><span class="badge bg-${task.priority === 'HIGH' ? 'danger' : 'warning'}">${task.priority}</span></td>
