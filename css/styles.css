@@ -65,6 +65,7 @@ body {
     border: none;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin: 0 -16px;
 }
 
 .card-header {
@@ -301,4 +302,13 @@ body {
     color: #000;
     font-weight: normal;
     padding: 5px 10px;
+}
+
+/* Add this to your existing CSS */
+.tab-pane {
+    padding: 0 16px;  /* Match the table's padding */
+}
+
+.d-flex.justify-content-between.mb-3 {
+    padding: 0 8px;  /* Fine-tune alignment with table cells */
 } 
