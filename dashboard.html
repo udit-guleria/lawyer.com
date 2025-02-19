@@ -27,6 +27,9 @@
             <li class="nav-item">
                 <a class="nav-link" id="tasks-tab" data-bs-toggle="tab" href="#tasks" role="tab">Tasks</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="users-tab" data-bs-toggle="tab" href="#users" role="tab">Users</a>
+            </li>
         </ul>
 
         <div class="tab-content mt-3" id="mainTabContent">
@@ -77,6 +80,33 @@
                                         <th>Due Date</th>
                                         <th>Status</th>
                                         <th>Priority</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Tab -->
+            <div class="tab-pane fade" id="users" role="tabpanel">
+                <div class="d-flex justify-content-between mb-3">
+                    <h4>Users</h4>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">
+                        <i class="bi bi-plus"></i> New User
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Type</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -200,8 +230,10 @@
                             <label class="form-label">Status</label>
                             <select class="form-select" name="status">
                                 <option value="NEW">New</option>
-                                <option value="IN_PROGRESS">In Progress</option>
+                                <option value="IN-PROGRESS">In Progress</option>
                                 <option value="COMPLETED">Completed</option>
+                                <option value="DROPPED">Dropped</option>
+                                <option value="OVERDUE">Overdue</option>
                             </select>
                         </div>
                     </form>
@@ -209,6 +241,48 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="saveTask">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Modal -->
+    <div class="modal fade" id="userModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">User Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="userForm">
+                        <input type="hidden" name="id">
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Type</label>
+                            <select class="form-select" name="type" required>
+                                <option value="SALES REP">Sales Rep</option>
+                                <option value="MANAGER">Manager</option>
+                                <option value="ADMIN">Admin</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password">
+                            <small class="text-muted">Leave blank to keep existing password</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveUser">Save</button>
                 </div>
             </div>
         </div>

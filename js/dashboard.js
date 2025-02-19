@@ -37,6 +37,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const modalTitle = document.querySelector('#taskModal .modal-title');
         modalTitle.textContent = 'Task Details';
     });
+
+    // Setup user management if current user is admin
+    if (currentUser.type === 'ADMIN') {
+        loadUsers();
+        document.getElementById('saveUser').addEventListener('click', saveUser);
+    } else {
+        document.getElementById('users-tab').style.display = 'none';
+    }
 });
 
 async function loadLeads() {
@@ -54,7 +62,7 @@ async function loadLeads() {
                 <td>${lead.name}</td>
                 <td>${lead.email}</td>
                 <td>${lead.company}</td>
-                <td><span class="badge bg-primary">${lead.status}</span></td>
+                <td><span class="badge ${getLeadStatusBadgeClass(lead.status)}">${lead.status}</span></td>
                 <td class="action-buttons">
                     <button class="btn btn-sm btn-primary" onclick='editLead(${leadJson})'>
                         <i class="bi bi-pencil"></i>
@@ -87,7 +95,7 @@ async function loadTasks() {
                 <td>${task.title}</td>
                 <td>${task.lead_id}</td>
                 <td>${task.due_date}</td>
-                <td><span class="badge bg-primary">${task.status}</span></td>
+                <td><span class="badge ${getStatusBadgeClass(task.status)}">${task.status}</span></td>
                 <td><span class="badge bg-${task.priority === 'HIGH' ? 'danger' : 'warning'}">${task.priority}</span></td>
                 <td class="action-buttons">
                     <button class="btn btn-sm btn-primary" onclick="editTask(${JSON.stringify(task)})">
@@ -244,4 +252,69 @@ async function deleteTask(id) {
             alert('Delete failed');
         }
     }
-} 
+}
+
+// Add helper function for status badge colors
+function getStatusBadgeClass(status) {
+    switch(status) {
+        case 'NEW': return 'bg-primary';
+        case 'IN-PROGRESS': return 'bg-info';
+        case 'COMPLETED': return 'bg-success';
+        case 'DROPPED': return 'bg-secondary';
+        case 'OVERDUE': return 'bg-danger';
+        default: return 'bg-primary';
+    }
+}
+
+// Add helper function for lead status badge colors
+function getLeadStatusBadgeClass(status) {
+    switch(status) {
+        case 'NEW': return 'bg-primary';
+        case 'CONTACTED': return 'bg-info';
+        case 'PROPOSAL': return 'bg-warning';
+        case 'NEGOTIATION': return 'bg-secondary';
+        case 'CLOSED-WON': return 'bg-success';
+        case 'CLOSED-LOST': return 'bg-danger';
+        default: return 'bg-primary';
+    }
+}
+
+async function loadUsers() {
+    try {
+        const response = await fetch('api/users.php');
+        const users = await response.json();
+        const tbody = document.querySelector('#usersTable tbody');
+        tbody.innerHTML = '';
+
+        users.forEach(user => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${user.name}</td>
+                <td>${user.email}</td>
+                <td><span class="badge ${getUserTypeBadgeClass(user.type)}">${user.type}</span></td>
+                <td class="action-buttons">
+                    <button class="btn btn-sm btn-primary" onclick='editUser(${JSON.stringify(user)})'>
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteUser('${user.id}')">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (error) {
+        alert('Error loading users');
+    }
+}
+
+function getUserTypeBadgeClass(type) {
+    switch(type) {
+        case 'SALES REP': return 'bg-info';
+        case 'MANAGER': return 'bg-warning';
+        case 'ADMIN': return 'bg-danger';
+        default: return 'bg-primary';
+    }
+}
+
+// ... rest of existing code ... 
