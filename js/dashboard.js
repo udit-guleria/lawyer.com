@@ -47,7 +47,9 @@ async function loadLeads() {
             tr.innerHTML = `
                 <td>${lead.name}</td>
                 <td>${lead.email}</td>
+                <td>${lead.phone || '-'}</td>
                 <td>${lead.company}</td>
+                <td>${lead.industry}</td>
                 <td><span class="badge ${getLeadStatusBadgeClass(lead.status)}">${lead.status}</span></td>
                 <td class="action-buttons">
                     <button class="btn btn-sm btn-primary" onclick='editLead(${leadJson})'>
