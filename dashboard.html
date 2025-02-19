@@ -62,85 +62,165 @@
                 <div class="tab-content" id="mainTabContent">
                     <!-- Dashboard Tab -->
                     <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
-                        <div class="d-flex justify-content-between mb-3">
-                            <h4>Dashboard</h4>
-                        </div>
-                        
-                        <!-- Dashboard Cards Row -->
                         <div class="row mb-4">
-                            <div class="col">
+                            <!-- Sales by Rep Chart -->
+                            <div class="col-md-6 mb-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h6 class="card-title">Sales by Rep</h6>
-                                        <div class="placeholder-image" style="height: 200px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;">
-                                            <i class="bi bi-bar-chart" style="font-size: 2rem; color: #dee2e6;"></i>
+                                        <h5 class="card-title">Sales by Rep</h5>
+                                        <div class="chart-placeholder" style="height: 200px; background-color: #f8f9fa;">
+                                            <!-- Placeholder for bar chart -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
+
+                            <!-- Lead Generation Pipeline -->
+                            <div class="col-md-6 mb-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h6 class="card-title">Lead Generation Pipeline</h6>
-                                        <div class="placeholder-image" style="height: 200px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;">
-                                            <i class="bi bi-funnel" style="font-size: 2rem; color: #dee2e6;"></i>
+                                        <h5 class="card-title">Lead Generation Pipeline</h5>
+                                        <div class="chart-placeholder" style="height: 200px; background-color: #f8f9fa;">
+                                            <!-- Placeholder for funnel chart -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="row mb-4">
-                            <div class="col">
+
+                            <!-- Average Value of Won Deals -->
+                            <div class="col-md-4 mb-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h6 class="card-title">Average Value of Won Deals</h6>
-                                        <div class="placeholder-image" style="height: 200px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;">
-                                            <i class="bi bi-currency-dollar" style="font-size: 2rem; color: #dee2e6;"></i>
+                                        <h5 class="card-title">Average Value of Won Deals</h5>
+                                        <h2 class="display-6 text-center">$128,100</h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sales Pipeline -->
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Sales Pipeline</h5>
+                                        <div class="chart-placeholder" style="height: 150px; background-color: #f8f9fa;">
+                                            <!-- Placeholder for pie chart -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
+
+                            <!-- Monthly Goal -->
+                            <div class="col-md-4 mb-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h6 class="card-title">Sales Pipeline</h6>
-                                        <div class="placeholder-image" style="height: 200px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;">
-                                            <i class="bi bi-pie-chart" style="font-size: 2rem; color: #dee2e6;"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h6 class="card-title">Monthly Goal</h6>
-                                        <div class="placeholder-image" style="height: 200px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;">
-                                            <i class="bi bi-graph-up" style="font-size: 2rem; color: #dee2e6;"></i>
+                                        <h5 class="card-title">Monthly Goal</h5>
+                                        <h3>$6.2M</h3>
+                                        <p class="text-muted">Goal: $8.1M</p>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 76%"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Leads Table Section -->
+                        <!-- Customer Interaction Logs -->
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title mb-3">Recent Leads</h5>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="card-title">Customer Interaction Logs</h5>
+                                    <div class="d-flex gap-2">
+                                        <select class="form-select form-select-sm" style="width: auto;">
+                                            <option>All Interactions</option>
+                                            <option>Calls</option>
+                                            <option>Emails</option>
+                                            <option>Notes</option>
+                                        </select>
+                                        <button class="btn btn-sm btn-light">Clear</button>
+                                    </div>
+                                </div>
                                 <div class="table-responsive">
-                                    <table class="table table-hover" id="dashboardLeadsTable">
+                                    <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
-                                                <th>Company</th>
-                                                <th>Industry</th>
-                                                <th>Status</th>
+                                                <th>Date</th>
+                                                <th>Time</th>
+                                                <th>Contact</th>
+                                                <th>Type</th>
+                                                <th>Notes</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- Will be populated dynamically -->
+                                            <tr>
+                                                <td>12 Feb</td>
+                                                <td>10:30 AM</td>
+                                                <td>Jane Smith</td>
+                                                <td><i class="bi bi-telephone-fill text-primary"></i> Call</td>
+                                                <td>Follow-up on proposal</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11 Feb</td>
+                                                <td>2:45 PM</td>
+                                                <td>Acme Corp</td>
+                                                <td><i class="bi bi-envelope-fill text-secondary"></i> Email</td>
+                                                <td>Sent contract details</td>
+                                            </tr>
+                                            <tr>
+                                                <td>10 Feb</td>
+                                                <td>1:00 PM</td>
+                                                <td>John Doe</td>
+                                                <td><i class="bi bi-journal-text text-warning"></i> Note</td>
+                                                <td>Scheduled next meeting</td>
+                                            </tr>
+                                            <tr>
+                                                <td>09 Feb</td>
+                                                <td>4:15 PM</td>
+                                                <td>Sarah Lee</td>
+                                                <td><i class="bi bi-telephone-fill text-primary"></i> Call</td>
+                                                <td>Discussed pricing options</td>
+                                            </tr>
+                                            <tr>
+                                                <td>08 Feb</td>
+                                                <td>11:20 AM</td>
+                                                <td>Michael Brown</td>
+                                                <td><i class="bi bi-envelope-fill text-secondary"></i> Email</td>
+                                                <td>Shared presentation deck</td>
+                                            </tr>
+                                            <tr>
+                                                <td>07 Feb</td>
+                                                <td>3:50 PM</td>
+                                                <td>Emily Davis</td>
+                                                <td><i class="bi bi-journal-text text-warning"></i> Note</td>
+                                                <td>Client requested demo</td>
+                                            </tr>
+                                            <tr>
+                                                <td>06 Feb</td>
+                                                <td>9:05 AM</td>
+                                                <td>Global Law Firm</td>
+                                                <td><i class="bi bi-telephone-fill text-primary"></i> Call</td>
+                                                <td>Negotiation phase update</td>
+                                            </tr>
+                                            <tr>
+                                                <td>05 Feb</td>
+                                                <td>2:30 PM</td>
+                                                <td>John Carter</td>
+                                                <td><i class="bi bi-envelope-fill text-secondary"></i> Email</td>
+                                                <td>Proposal sent for review</td>
+                                            </tr>
+                                            <tr>
+                                                <td>04 Feb</td>
+                                                <td>10:10 AM</td>
+                                                <td>Olivia White</td>
+                                                <td><i class="bi bi-journal-text text-warning"></i> Note</td>
+                                                <td>Lead requested more details</td>
+                                            </tr>
+                                            <tr>
+                                                <td>03 Feb</td>
+                                                <td>1:45 PM</td>
+                                                <td>Chris Martin</td>
+                                                <td><i class="bi bi-telephone-fill text-primary"></i> Call</td>
+                                                <td>Scheduled next follow-up</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
