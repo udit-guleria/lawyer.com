@@ -77,6 +77,8 @@ async function loadTasks() {
 
         tasks.forEach(task => {
             const tr = document.createElement('tr');
+            // Escape the task object properly for the onclick handler
+            const taskJson = JSON.stringify(task).replace(/'/g, '&#39;').replace(/"/g, '&quot;');
             tr.innerHTML = `
                 <td>${task.title}</td>
                 <td>${task.lead_id}</td>
@@ -84,7 +86,7 @@ async function loadTasks() {
                 <td><span class="badge ${getStatusBadgeClass(task.status)}">${task.status}</span></td>
                 <td><span class="badge bg-${task.priority === 'HIGH' ? 'danger' : 'warning'}">${task.priority}</span></td>
                 <td class="action-buttons">
-                    <button class="btn btn-sm btn-primary" onclick="editTask(${JSON.stringify(task)})">
+                    <button class="btn btn-sm btn-primary" onclick='editTask(${taskJson})'>
                         <i class="bi bi-pencil"></i>
                     </button>
                     <button class="btn btn-sm btn-danger" onclick="deleteTask('${task.id}')">
@@ -301,6 +303,56 @@ function getUserTypeBadgeClass(type) {
         case 'ADMIN': return 'bg-danger';
         default: return 'bg-primary';
     }
+}
+
+function editTask(task) {
+    const form = document.getElementById('taskForm');
+    // Reset form first
+    form.reset();
+    
+    // Hide the lead selection group since we want to keep the same lead
+    const leadSelectGroup = form.querySelector('.lead-select-group');
+    leadSelectGroup.style.display = 'none';
+    
+    // Remove any existing hidden inputs first
+    const existingLeadInput = form.querySelector('input[name="lead_id"]');
+    if (existingLeadInput) {
+        existingLeadInput.remove();
+    }
+    const existingCreatedByInput = form.querySelector('input[name="created_by"]');
+    if (existingCreatedByInput) {
+        existingCreatedByInput.remove();
+    }
+    
+    // Create new hidden inputs
+    const leadIdInput = document.createElement('input');
+    leadIdInput.type = 'hidden';
+    leadIdInput.name = 'lead_id';
+    leadIdInput.value = task.lead_id;
+    form.appendChild(leadIdInput);
+    
+    const createdByInput = document.createElement('input');
+    createdByInput.type = 'hidden';
+    createdByInput.name = 'created_by';
+    createdByInput.value = task.created_by;
+    form.appendChild(createdByInput);
+    
+    // Populate visible form fields with task data
+    Object.keys(task).forEach(key => {
+        // Skip lead_id and created_by as they're handled by hidden inputs
+        if (key !== 'lead_id' && key !== 'created_by') {
+            const input = form.elements[key];
+            if (input) input.value = task[key];
+        }
+    });
+    
+    // Update modal title
+    const modalTitle = document.querySelector('#taskModal .modal-title');
+    modalTitle.textContent = 'Edit Task';
+    
+    // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById('taskModal'));
+    modal.show();
 }
 
 // ... rest of existing code ... 
