@@ -167,13 +167,62 @@ body {
     box-shadow: 0 0 0 3px rgba(30, 115, 190, 0.1);
 }
 
-/* Status badge colors */
-.badge.bg-new { background-color: var(--primary-color) !important; }
-.badge.bg-contacted { background-color: #6366F1 !important; }
-.badge.bg-proposal { background-color: #F59E0B !important; }
-.badge.bg-negotiation { background-color: #7C3AED !important; }
-.badge.bg-closed-won { background-color: var(--secondary-color) !important; }
-.badge.bg-closed-lost { background-color: #DC2626 !important; }
+/* Table styles */
+.table {
+    font-size: 14px;
+    color: #333333;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    color: #666;
+    font-weight: 500;
+    padding: 12px 16px;
+}
+
+.table tbody td {
+    padding: 12px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+}
+
+/* Status badge colors - keeping original status types */
+.badge.bg-new { 
+    background-color: var(--primary-color) !important;
+    font-weight: normal;
+    padding: 5px 10px;
+}
+.badge.bg-contacted { 
+    background-color: #6366F1 !important;
+    font-weight: normal;
+    padding: 5px 10px;
+}
+.badge.bg-proposal { 
+    background-color: #F59E0B !important;
+    font-weight: normal;
+    padding: 5px 10px;
+}
+.badge.bg-negotiation { 
+    background-color: #7C3AED !important;
+    font-weight: normal;
+    padding: 5px 10px;
+}
+.badge.bg-closed-won { 
+    background-color: var(--secondary-color) !important;
+    font-weight: normal;
+    padding: 5px 10px;
+}
+.badge.bg-closed-lost { 
+    background-color: #DC2626 !important;
+    font-weight: normal;
+    padding: 5px 10px;
+}
+
+/* Table hover effect */
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
 
 .social-login {
     margin-top: 20px;
@@ -232,4 +281,24 @@ body {
 
 .microsoft-btn {
     color: #5e5e5e;
+}
+
+/* Status badges for different communication types */
+.badge.bg-call {
+    background-color: #dc3545 !important;
+    font-weight: normal;
+    padding: 5px 10px;
+}
+
+.badge.bg-email {
+    background-color: #6c757d !important;
+    font-weight: normal;
+    padding: 5px 10px;
+}
+
+.badge.bg-note {
+    background-color: #ffc107 !important;
+    color: #000;
+    font-weight: normal;
+    padding: 5px 10px;
 } 
