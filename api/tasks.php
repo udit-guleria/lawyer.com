@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 require_once '../db_connect.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -27,7 +28,34 @@ switch($method) {
         break;
 
     case 'POST':
-        $data = json_decode(file_get_contents('php://input'), true);
+        // Get JSON input
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+
+        // Add debug logging
+        error_log('Received JSON: ' . $json);
+        error_log('Decoded data: ' . print_r($data, true));
+
+        // Validate required fields
+        if (!$data || !isset($data['title']) || !isset($data['due_date'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing required fields: title and due_date']);
+            exit;
+        }
+
+        // Validate data types and formats
+        if (!is_string($data['title']) || strlen($data['title']) < 1) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid title']);
+            exit;
+        }
+
+        if (!strtotime($data['due_date'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid date format']);
+            exit;
+        }
+
         try {
             $pdo->beginTransaction();
             
@@ -57,11 +85,15 @@ switch($method) {
             }
             
             $pdo->commit();
-            echo json_encode(['message' => 'Task created successfully', 'id' => $taskId]);
+            http_response_code(201);
+            echo json_encode([
+                'message' => 'Task created successfully',
+                'task_id' => $taskId
+            ]);
         } catch(PDOException $e) {
             $pdo->rollBack();
-            http_response_code(400);
-            echo json_encode(['error' => $e->getMessage()]);
+            http_response_code(500);
+            echo json_encode(['error' => 'Database error']);
         }
         break;
 

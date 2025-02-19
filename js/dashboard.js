@@ -23,6 +23,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Setup event listeners
     document.getElementById('saveLead').addEventListener('click', saveLead);
     document.getElementById('saveTask').addEventListener('click', saveTask);
+
+    // Add handler for the "New Task" button
+    document.querySelector('[data-bs-target="#taskModal"]').addEventListener('click', function() {
+        const form = document.getElementById('taskForm');
+        form.reset();
+        
+        // Show the lead selection dropdown for new standalone tasks
+        const leadSelectGroup = form.querySelector('.lead-select-group');
+        leadSelectGroup.style.display = 'block';
+        
+        // Reset modal title
+        const modalTitle = document.querySelector('#taskModal .modal-title');
+        modalTitle.textContent = 'Task Details';
+    });
 });
 
 async function loadLeads() {
@@ -161,7 +175,19 @@ function editLead(lead) {
 
 function createTaskForLead(lead) {
     const form = document.getElementById('taskForm');
+    form.reset(); // Reset form first
+    
+    // Hide the lead selection dropdown group when creating task from lead
+    const leadSelectGroup = form.querySelector('.lead-select-group');
+    leadSelectGroup.style.display = 'none';
+    
+    // Set the lead_id
     form.elements['lead_id'].value = lead.id;
+    
+    // Update modal title to indicate we're creating task for specific lead
+    const modalTitle = document.querySelector('#taskModal .modal-title');
+    modalTitle.textContent = `New Task for ${lead.name}`;
+    
     const modal = new bootstrap.Modal(document.getElementById('taskModal'));
     modal.show();
 }
