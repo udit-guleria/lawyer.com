@@ -22,7 +22,10 @@
             <!-- Left Panel Navigation -->
             <div class="col-md-2 bg-light border-end pt-3 d-flex flex-column position-fixed" style="height: calc(100vh - 56px);">
                 <div class="nav flex-column nav-pills flex-grow-1 overflow-auto" id="mainTabs" role="tablist">
-                    <a class="nav-link active mb-2" id="leads-tab" data-bs-toggle="tab" href="#leads" role="tab">
+                    <a class="nav-link active mb-2" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </a>
+                    <a class="nav-link mb-2" id="leads-tab" data-bs-toggle="tab" href="#leads" role="tab">
                         <i class="bi bi-person-lines-fill me-2"></i>Leads
                     </a>
                     <a class="nav-link mb-2" id="tasks-tab" data-bs-toggle="tab" href="#tasks" role="tab">
@@ -57,8 +60,96 @@
             <!-- Main Content Area -->
             <div class="col-md-10 pt-3">
                 <div class="tab-content" id="mainTabContent">
+                    <!-- Dashboard Tab -->
+                    <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h4>Dashboard</h4>
+                        </div>
+                        
+                        <!-- Dashboard Cards Row -->
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Sales by Rep</h6>
+                                        <div class="placeholder-image" style="height: 200px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-bar-chart" style="font-size: 2rem; color: #dee2e6;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Lead Generation Pipeline</h6>
+                                        <div class="placeholder-image" style="height: 200px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-funnel" style="font-size: 2rem; color: #dee2e6;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Average Value of Won Deals</h6>
+                                        <div class="placeholder-image" style="height: 200px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-currency-dollar" style="font-size: 2rem; color: #dee2e6;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Sales Pipeline</h6>
+                                        <div class="placeholder-image" style="height: 200px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-pie-chart" style="font-size: 2rem; color: #dee2e6;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Monthly Goal</h6>
+                                        <div class="placeholder-image" style="height: 200px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-graph-up" style="font-size: 2rem; color: #dee2e6;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Leads Table Section -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Recent Leads</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="dashboardLeadsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Company</th>
+                                                <th>Industry</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Will be populated dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Leads Tab -->
-                    <div class="tab-pane fade show active" id="leads" role="tabpanel">
+                    <div class="tab-pane fade" id="leads" role="tabpanel">
                         <div class="d-flex justify-content-between mb-3">
                             <h4>Leads</h4>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#leadModal">
