@@ -34,16 +34,18 @@ async function loadLeads() {
 
         leads.forEach(lead => {
             const tr = document.createElement('tr');
+            // Escape the lead object properly for the onclick handlers
+            const leadJson = JSON.stringify(lead).replace(/'/g, '&#39;').replace(/"/g, '&quot;');
             tr.innerHTML = `
                 <td>${lead.name}</td>
                 <td>${lead.email}</td>
                 <td>${lead.company}</td>
                 <td><span class="badge bg-primary">${lead.status}</span></td>
                 <td class="action-buttons">
-                    <button class="btn btn-sm btn-primary" onclick="editLead(${JSON.stringify(lead)})">
+                    <button class="btn btn-sm btn-primary" onclick='editLead(${leadJson})'>
                         <i class="bi bi-pencil"></i>
                     </button>
-                    <button class="btn btn-sm btn-success" onclick="createTaskForLead(${JSON.stringify(lead)})">
+                    <button class="btn btn-sm btn-success" onclick='createTaskForLead(${leadJson})'>
                         <i class="bi bi-plus-circle"></i>
                     </button>
                     <button class="btn btn-sm btn-danger" onclick="deleteLead('${lead.email}')">
