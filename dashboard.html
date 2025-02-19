@@ -12,105 +12,129 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="#">CRM Dashboard</a>
-            <div class="d-flex">
-                <span class="navbar-text me-3" id="userInfo"></span>
-                <button class="btn btn-outline-danger btn-sm" id="logoutBtn">Logout</button>
-            </div>
         </div>
     </nav>
 
-    <div class="container mt-4">
-        <ul class="nav nav-tabs" id="mainTabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="leads-tab" data-bs-toggle="tab" href="#leads" role="tab">Leads</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="tasks-tab" data-bs-toggle="tab" href="#tasks" role="tab">Tasks</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="users-tab" data-bs-toggle="tab" href="#users" role="tab">Users</a>
-            </li>
-        </ul>
-
-        <div class="tab-content mt-3" id="mainTabContent">
-            <!-- Leads Tab -->
-            <div class="tab-pane fade show active" id="leads" role="tabpanel">
-                <div class="d-flex justify-content-between mb-3">
-                    <h4>Leads</h4>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#leadModal">
-                        <i class="bi bi-plus"></i> New Lead
-                    </button>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Panel Navigation -->
+            <div class="col-md-2 bg-light border-end pt-3 d-flex flex-column position-fixed" style="height: calc(100vh - 56px);">
+                <div class="nav flex-column nav-pills flex-grow-1 overflow-auto" id="mainTabs" role="tablist">
+                    <a class="nav-link active mb-2" id="leads-tab" data-bs-toggle="tab" href="#leads" role="tab">
+                        <i class="bi bi-person-lines-fill me-2"></i>Leads
+                    </a>
+                    <a class="nav-link mb-2" id="tasks-tab" data-bs-toggle="tab" href="#tasks" role="tab">
+                        <i class="bi bi-list-task me-2"></i>Tasks
+                    </a>
+                    <a class="nav-link mb-2" id="users-tab" data-bs-toggle="tab" href="#users" role="tab">
+                        <i class="bi bi-people me-2"></i>Users
+                    </a>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover" id="leadsTable">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Company</th>
-                                        <th>Industry</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
+                
+                <!-- Profile Section -->
+                <div class="border-top pt-3">
+                    <div class="dropdown">
+                        <button class="btn btn-light w-100 text-start d-flex align-items-center" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle me-2"></i>
+                            <span id="userInfo" class="text-truncate"></span>
+                            <i class="bi bi-chevron-up ms-auto"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end w-100" aria-labelledby="profileDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><button class="dropdown-item text-danger" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</button></li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- Tasks Tab -->
-            <div class="tab-pane fade" id="tasks" role="tabpanel">
-                <div class="d-flex justify-content-between mb-3">
-                    <h4>Tasks</h4>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover" id="tasksTable">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Lead</th>
-                                        <th>Due Date</th>
-                                        <th>Status</th>
-                                        <th>Priority</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+            <!-- Spacer div to prevent content overlap -->
+            <div class="col-md-2"></div>
+
+            <!-- Main Content Area -->
+            <div class="col-md-10 pt-3">
+                <div class="tab-content" id="mainTabContent">
+                    <!-- Leads Tab -->
+                    <div class="tab-pane fade show active" id="leads" role="tabpanel">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h4>Leads</h4>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#leadModal">
+                                <i class="bi bi-plus"></i> New Lead
+                            </button>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="leadsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Company</th>
+                                                <th>Industry</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Users Tab -->
-            <div class="tab-pane fade" id="users" role="tabpanel">
-                <div class="d-flex justify-content-between mb-3">
-                    <h4>Users</h4>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">
-                        <i class="bi bi-plus"></i> New User
-                    </button>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover" id="usersTable">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Type</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                    <!-- Tasks Tab -->
+                    <div class="tab-pane fade" id="tasks" role="tabpanel">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h4>Tasks</h4>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="tasksTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Lead</th>
+                                                <th>Due Date</th>
+                                                <th>Status</th>
+                                                <th>Priority</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Users Tab -->
+                    <div class="tab-pane fade" id="users" role="tabpanel">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h4>Users</h4>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">
+                                <i class="bi bi-plus"></i> New User
+                            </button>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="usersTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Type</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
