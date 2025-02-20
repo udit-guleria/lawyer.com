@@ -187,33 +187,13 @@ The frontend provides a modern, responsive interface built with Bootstrap 5 and 
 ## 4. Deployment
 
 ### Summary
-The application is deployed on Heroku's cloud platform, utilizing their PHP and MySQL (ClearDB) services.
+The application is deployed on Heroku's cloud platform, utilizing their PHP runtime and JawsDB MySQL add-on for database services.
 
 ### Deployment Process
 1. **Heroku Setup**: Create a new Heroku application and configure the necessary buildpacks for PHP support.
 
-2. **Database Configuration**: Set up ClearDB MySQL add-on and configure the database connection parameters.
+2. **Database Configuration**: Set up JawsDB MySQL add-on and configure the database connection parameters.
 
 3. **Environment Setup**: Configure environment variables for sensitive information and deployment-specific settings.
 
 4. **Application Deployment**: Deploy the application using Heroku's Git integration, ensuring proper build and startup processes.
-
-## Development Tips
-- Maintain comprehensive test coverage
-- Follow security best practices for data handling
-- Implement proper error logging and monitoring
-- Keep dependencies updated
-- Use version control effectively
-
-## Troubleshooting
-- Monitor application logs for errors
-- Verify environment configurations
-- Check database connectivity
-- Validate API responses
-- Review browser console for frontend issues
-
-## Contributing
-Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests.
-
-## License
-This project is licensed under the MIT License - see the LICENSE.md file for details
