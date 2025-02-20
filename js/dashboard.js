@@ -124,7 +124,7 @@ async function loadTasks() {
                         </div>
                         <div class="task-meta mb-3">
                             <p class="card-text text-muted small mb-1">
-                                <i class="bi bi-person me-1"></i>${leadMap[task.lead_id] || 'Unknown Lead'}
+                                <i class="bi bi-person me-1"></i>Lead: ${leadMap[task.lead_id] || 'Unknown Lead'}
                             </p>
                             <p class="card-text text-muted small mb-0">
                                 <i class="bi bi-person-badge me-1"></i>Created by: ${userMap[task.created_by] || 'Unknown User'}
