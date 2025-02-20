@@ -120,6 +120,7 @@ async function loadTasks() {
                             <span class="badge ${getStatusBadgeClass(task.status)}">${task.status}</span>
                             <span class="badge bg-${task.priority === 'HIGH' ? 'danger' : 'warning'}">${task.priority}</span>
                         </div>
+                        <p class="task-description mb-3">${task.description || 'No description provided'}</p>
                         <p class="card-text small mb-0">
                             <i class="bi bi-calendar me-1"></i>Due: ${task.due_date}
                         </p>

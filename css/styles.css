@@ -434,4 +434,15 @@ body {
 .badge.bg-secondary {
     background-color: #e2e3e5 !important;
     color: #41464b;
+}
+
+.task-description {
+    font-size: 0.875rem;
+    color: #6c757d;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
 } 
