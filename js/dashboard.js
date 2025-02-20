@@ -122,21 +122,21 @@ async function loadTasks() {
                                 </ul>
                             </div>
                         </div>
-                        <div class="task-meta mb-3">
-                            <p class="card-text text-muted small mb-1">
-                                <i class="bi bi-person me-1"></i>Lead: ${leadMap[task.lead_id] || 'Unknown Lead'}
-                            </p>
-                            <p class="card-text text-muted small mb-0">
-                                <i class="bi bi-person-badge me-1"></i>Created by: ${userMap[task.created_by] || 'Unknown User'}
-                            </p>
-                        </div>
-                        <div class="d-flex gap-2 mb-3">
-                            <span class="badge ${getStatusBadgeClass(task.status)}">${task.status}</span>
-                            <span class="badge bg-${task.priority === 'HIGH' ? 'danger' : 'warning'}">${task.priority}</span>
-                        </div>
+                        <p class="card-text text-muted small mb-2">
+                            <i class="bi bi-person me-1"></i>Lead: ${leadMap[task.lead_id] || 'Unknown Lead'}
+                        </p>
                         <p class="task-description mb-3">${task.description || 'No description provided'}</p>
-                        <p class="card-text small mb-0">
-                            <i class="bi bi-calendar me-1"></i>Due: ${task.due_date}
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex gap-2">
+                                <span class="badge ${getStatusBadgeClass(task.status)}">${task.status}</span>
+                                <span class="badge bg-${task.priority === 'HIGH' ? 'danger' : 'warning'}">${task.priority}</span>
+                            </div>
+                            <span class="text-muted small">
+                                <i class="bi bi-calendar me-1"></i>${task.due_date}
+                            </span>
+                        </div>
+                        <p class="card-text text-muted small mb-0">
+                            <i class="bi bi-person-badge me-1"></i>Created by: ${userMap[task.created_by] || 'Unknown User'}
                         </p>
                     </div>
                 </div>

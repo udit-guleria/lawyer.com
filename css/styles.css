@@ -388,6 +388,28 @@ body {
     color: #2c3e50;
 }
 
+.task-card .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-description {
+    font-size: 0.875rem;
+    color: #6c757d;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+    flex-grow: 1;  /* This will help push the status/due date section down */
+}
+
+/* Remove the task-meta class since we're not using it anymore */
+.task-card .card-text {
+    margin-bottom: 0.5rem;
+}
+
 .task-card .badge {
     font-weight: 500;
     padding: 0.35em 0.65em;
@@ -434,28 +456,4 @@ body {
 .badge.bg-secondary {
     background-color: #e2e3e5 !important;
     color: #41464b;
-}
-
-.task-description {
-    font-size: 0.875rem;
-    color: #6c757d;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.5;
-}
-
-.task-meta {
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-
-.task-meta p:last-child {
-    margin-bottom: 0;
-}
-
-.task-meta i {
-    opacity: 0.7;
 } 
