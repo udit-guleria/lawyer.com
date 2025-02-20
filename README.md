@@ -139,25 +139,11 @@ The API layer provides RESTful endpoints for managing users, leads, and tasks in
    - **DELETE /api/tasks**
      - Delete task by ID parameter
 
-### Data Validation
-- Input validation for required fields
-- Date format validation for task due dates
-- Email format validation
-- Status and type enumeration validation
-- Transaction management for complex operations
-
-### Error Handling
-- HTTP status codes for different scenarios
-- 400: Bad Request (invalid input)
-- 404: Not Found (resource doesn't exist)
-- 500: Server Error (database issues)
-- Detailed error messages in JSON format
-
-### Security Features
-- Password hashing using SHA2
-- PDO prepared statements for SQL injection prevention
-- Limited exposure of sensitive data (password fields excluded from GET responses)
-- Transaction management for data integrity
+### Data Validation & Security
+- Input validation (fields, dates, emails, enums)
+- Error handling with standard HTTP codes and JSON responses
+- SHA2 password hashing and PDO prepared statements
+- Data protection and secure transactions
 
 ## 3. Frontend Development
 
