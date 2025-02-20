@@ -13,136 +13,151 @@ This guide outlines the complete development process from setting up a local MyS
 ## 1. Database Setup
 
 ### Summary
-- Create local MySQL database
-- Run initialization scripts
-- Seed with sample data
+The database layer consists of a MySQL database with tables for users, items, orders, and order tracking. The setup process involves installing MySQL, creating the database structure, and populating it with initial data.
 
-### Detailed Steps
-1. Install MySQL locally
-   ```bash
-   sudo apt-get install mysql-server    # Ubuntu/Debian
-   brew install mysql                   # macOS
-   ```
+### Database Structure
+The database consists of the following tables:
 
-2. Create database and user
-   ```bash
-   mysql -u root -p
-   CREATE DATABASE your_database;
-   CREATE USER 'your_user'@'localhost' IDENTIFIED BY 'your_password';
-   GRANT ALL PRIVILEGES ON your_database.* TO 'your_user'@'localhost';
-   ```
+#### Users Table
+Stores user account information including credentials and timestamps.
+```sql
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-3. Run setup scripts
-   ```bash
-   ./setup_db.sh
-   ```
+#### Items Table
+Contains product information with references to sellers (users).
+```sql
+CREATE TABLE items (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) NOT NULL,
+    user_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+```
 
-4. Verify database setup
-   ```bash
-   mysql -u your_user -p your_database
-   SHOW TABLES;
-   ```
+#### Orders Table
+Tracks customer orders with their status and total amounts.
+```sql
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+```
+
+#### Order_Items Table
+Junction table linking orders to items with quantity and price information.
+```sql
+CREATE TABLE order_items (
+    order_id INT,
+    item_id INT,
+    quantity INT NOT NULL,
+    price_at_time DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (order_id, item_id),
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (item_id) REFERENCES items(id)
+);
+```
+
+### Setup Process
+1. **Database Installation**: Install MySQL on your development machine. The installation process varies by operating system, with package managers available for most platforms.
+
+2. **Database Creation**: Create a new database instance and a dedicated user with appropriate permissions. This ensures secure and isolated database access for the application.
+
+3. **Schema Setup**: Run the provided setup scripts to create the database structure. These scripts handle table creation, relationships, and initial data seeding.
+
+4. **Verification**: Verify the setup by checking table structures and relationships. Ensure all foreign key constraints are properly established.
 
 ## 2. API Development
 
 ### Summary
-- Set up PHP environment
-- Create database connection
-- Implement CRUD endpoints
+The API layer provides RESTful endpoints for interacting with the database. Built with PHP, it handles data validation, processing, and response formatting.
 
-### Detailed Steps
-1. Install PHP and dependencies
-   ```bash
-   composer install
-   ```
+### Implementation Details
+1. **Environment Setup**: The application requires PHP 7.4+ and uses Composer for dependency management. Key dependencies are managed through composer.json.
 
-2. Configure database connection
-   Edit `db_connect.php` with your credentials:
-   ```php
-   $host = "localhost";
-   $user = "your_user";
-   $password = "your_password";
-   $database = "your_database";
-   ```
+2. **Database Connection**: Connection management is handled through a centralized configuration file, supporting both development and production environments.
 
-3. Available API Endpoints
-   - GET `/api/items` - Retrieve all items
-   - POST `/api/items` - Create new item
-   - PUT `/api/items/{id}` - Update item
-   - DELETE `/api/items/{id}` - Delete item
-
-4. Test API endpoints
-   ```bash
-   curl http://localhost:8000/api/items
-   ```
+3. **API Endpoints**:
+   - **Items Management**:
+     - List Items: Retrieves paginated list of available items
+     - Item Details: Fetches detailed information for specific items
+     - Create/Update Items: Handles item creation and modifications
+     - Delete Items: Manages item removal with proper validation
+   
+   - **User Operations**:
+     - Authentication: Handles user login and session management
+     - Account Management: Supports user registration and profile updates
+   
+   - **Order Processing**:
+     - Order Creation: Processes new orders with validation
+     - Order Status: Tracks and updates order status
+     - Order History: Retrieves user order history
 
 ## 3. Frontend Development
 
 ### Summary
-- Create HTML structure
-- Style with CSS
-- Implement JavaScript functionality
+The frontend provides an intuitive user interface for interacting with the API. It's built with modern web technologies focusing on responsiveness and user experience.
 
-### Detailed Steps
-1. HTML Structure
-   - Create basic layout in `index.html`
-   - Set up navigation and content areas
-   - Add forms and display elements
+### Implementation Details
+1. **HTML Structure**:
+   - Semantic markup for better accessibility
+   - Modular components for reusability
+   - Responsive layout structure
+   - Form implementations for data entry
 
-2. CSS Styling
-   - Implement responsive design
-   - Style forms and buttons
-   - Add animations and transitions
+2. **CSS Architecture**:
+   - Responsive design system
+   - Component-based styling
+   - Animation and transition effects
+   - Cross-browser compatibility
 
-3. JavaScript Implementation
-   - Set up API calls
-   - Handle form submissions
-   - Implement dynamic content updates
-   - Add error handling
+3. **JavaScript Features**:
+   - Dynamic content loading
+   - Form validation and submission
+   - API integration
+   - Error handling and user feedback
+   - State management
 
 ## 4. Deployment
 
 ### Summary
-- Prepare application for Heroku
-- Configure database
-- Deploy application
+The application is deployed on Heroku's cloud platform, utilizing their PHP and MySQL (ClearDB) services.
 
-### Detailed Steps
-1. Heroku Setup
-   ```bash
-   heroku login
-   heroku create your-app-name
-   ```
+### Deployment Process
+1. **Heroku Setup**: Create a new Heroku application and configure the necessary buildpacks for PHP support.
 
-2. Configure Database
-   ```bash
-   heroku addons:create cleardb:ignite
-   heroku config:get CLEARDB_DATABASE_URL
-   ```
+2. **Database Configuration**: Set up ClearDB MySQL add-on and configure the database connection parameters.
 
-3. Update Configuration
-   - Set environment variables
-   - Update database connection settings
-   - Configure Procfile
+3. **Environment Setup**: Configure environment variables for sensitive information and deployment-specific settings.
 
-4. Deploy Application
-   ```bash
-   git push heroku main
-   heroku open
-   ```
+4. **Application Deployment**: Deploy the application using Heroku's Git integration, ensuring proper build and startup processes.
 
 ## Development Tips
-- Always backup database before major changes
-- Use version control for all code changes
-- Test API endpoints thoroughly
-- Follow security best practices
+- Maintain comprehensive test coverage
+- Follow security best practices for data handling
+- Implement proper error logging and monitoring
 - Keep dependencies updated
+- Use version control effectively
 
 ## Troubleshooting
-- Check database connection settings
-- Verify API endpoint URLs
-- Review server logs for errors
-- Ensure proper environment variables
+- Monitor application logs for errors
+- Verify environment configurations
+- Check database connectivity
+- Validate API responses
+- Review browser console for frontend issues
 
 ## Contributing
 Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests.
