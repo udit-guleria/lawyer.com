@@ -1,7 +1,3 @@
-sudo apachectl start
-
-sudo ln -s /Users/sirius/git/lawyer.com /Library/WebServer/Documents/lawyerdotcom
-
 ## Tasks API
 
 GET /api/tasks.php
@@ -73,3 +69,42 @@ PUT /api/users.php?id=1
 
 DELETE /api/users.php?id=1
 - Delete user: http://localhost:8080/lawyerdotcom/api/users.php?id=1
+
+# Sales CRM Platform
+
+## Deployment Information
+
+### Database Configuration
+The application uses JawsDB MySQL on Heroku. Database credentials are automatically configured through the `JAWSDB_URL` environment variable.
+
+### Deployment Steps
+1. Push changes to Heroku:
+   ```bash
+   git push heroku main
+   ```
+
+2. Update database schema (if changed):
+   ```bash
+   ./deploy_db.sh
+   ```
+
+3. View application logs:
+   ```bash
+   heroku logs --tail
+   ```
+
+### Important URLs
+- Application: https://sales-crm-platform-by-udit.herokuapp.com
+- Database Management: Available through JawsDB dashboard in Heroku
+
+### Environment Variables
+- `JAWSDB_URL`: Database connection string (automatically set by JawsDB addon)
+
+### Troubleshooting
+- Database connection issues: Check `heroku config | grep JAWSDB_URL`
+- Application errors: Check `heroku logs --tail`
+- Restart application: `heroku restart`
+
+### Maintenance
+- Regular backups are handled by JawsDB
+- Monitor database usage through Heroku dashboard
