@@ -75,7 +75,6 @@ async function loadLeads() {
 
 async function loadTasks() {
     try {
-        // Fetch both tasks and leads
         const [tasksResponse, leadsResponse] = await Promise.all([
             fetch('api/tasks.php'),
             fetch('api/leads.php')
@@ -84,35 +83,51 @@ async function loadTasks() {
         const tasks = await tasksResponse.json();
         const leads = await leadsResponse.json();
         
-        // Create a map of lead IDs to lead names for quick lookup
         const leadMap = leads.reduce((map, lead) => {
             map[lead.id] = lead.name;
             return map;
         }, {});
 
-        const tbody = document.querySelector('#tasksTable tbody');
-        tbody.innerHTML = '';
+        const tasksContainer = document.querySelector('#tasksTable');
+        tasksContainer.innerHTML = '<div class="row g-4" id="tasksGrid"></div>';
+        const tasksGrid = document.getElementById('tasksGrid');
 
         tasks.forEach(task => {
-            const tr = document.createElement('tr');
-            // Escape the task object properly for the onclick handler
+            const taskCard = document.createElement('div');
+            taskCard.className = 'col-md-4 col-lg-3';
+            
             const taskJson = JSON.stringify(task).replace(/'/g, '&#39;').replace(/"/g, '&quot;');
-            tr.innerHTML = `
-                <td>${task.title}</td>
-                <td>${leadMap[task.lead_id] || 'Unknown Lead'}</td>
-                <td>${task.due_date}</td>
-                <td><span class="badge ${getStatusBadgeClass(task.status)}">${task.status}</span></td>
-                <td><span class="badge bg-${task.priority === 'HIGH' ? 'danger' : 'warning'}">${task.priority}</span></td>
-                <td class="action-buttons">
-                    <button class="btn btn-sm btn-primary" onclick='editTask(${taskJson})'>
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger" onclick="deleteTask('${task.id}')">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
+            
+            taskCard.innerHTML = `
+                <div class="card h-100 task-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">${task.title}</h5>
+                            <div class="dropdown">
+                                <button class="btn btn-link btn-sm p-0 text-muted" type="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" onclick='editTask(${taskJson})'><i class="bi bi-pencil me-2"></i>Edit</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#" onclick="deleteTask('${task.id}')"><i class="bi bi-trash me-2"></i>Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="card-text text-muted small mb-2">
+                            <i class="bi bi-person me-1"></i>${leadMap[task.lead_id] || 'Unknown Lead'}
+                        </p>
+                        <div class="d-flex gap-2 mb-3">
+                            <span class="badge ${getStatusBadgeClass(task.status)}">${task.status}</span>
+                            <span class="badge bg-${task.priority === 'HIGH' ? 'danger' : 'warning'}">${task.priority}</span>
+                        </div>
+                        <p class="card-text small mb-0">
+                            <i class="bi bi-calendar me-1"></i>Due: ${task.due_date}
+                        </p>
+                    </div>
+                </div>
             `;
-            tbody.appendChild(tr);
+            
+            tasksGrid.appendChild(taskCard);
         });
     } catch (error) {
         alert('Error loading tasks');
