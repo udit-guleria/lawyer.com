@@ -1,110 +1,151 @@
-## Tasks API
+# Project Setup and Development Guide
 
-GET /api/tasks.php
-- Get all tasks: http://localhost:8080/lawyerdotcom/api/tasks.php
-- Get specific task: http://localhost:8080/lawyerdotcom/api/tasks.php?id=1
+## Table of Contents
+- [Overview](#overview)
+- [1. Database Setup](#1-database-setup)
+- [2. API Development](#2-api-development)
+- [3. Frontend Development](#3-frontend-development)
+- [4. Deployment](#4-deployment)
 
-POST /api/tasks.php
-- Create task: http://localhost:8080/lawyerdotcom/api/tasks.php
-  Body: {
-    "title": "New Task",
-    "description": "Task description",
-    "status": "pending"
-  }
+## Overview
+This guide outlines the complete development process from setting up a local MySQL database to deploying the final application on Heroku. The project consists of a MySQL database, PHP API endpoints, and a web frontend.
 
-PUT /api/tasks.php?id=1
-- Update task: http://localhost:8080/lawyerdotcom/api/tasks.php?id=1
-  Body: {
-    "title": "Updated Task",
-    "status": "completed"
-  }
+## 1. Database Setup
 
-DELETE /api/tasks.php?id=1
-- Delete task: http://localhost:8080/lawyerdotcom/api/tasks.php?id=1
+### Summary
+- Create local MySQL database
+- Run initialization scripts
+- Seed with sample data
 
-## Leads API
+### Detailed Steps
+1. Install MySQL locally
+   ```bash
+   sudo apt-get install mysql-server    # Ubuntu/Debian
+   brew install mysql                   # macOS
+   ```
 
-GET /api/leads.php
-- Get all leads: http://localhost:8080/lawyerdotcom/api/leads.php
-- Get specific lead: http://localhost:8080/lawyerdotcom/api/leads.php?id=1
+2. Create database and user
+   ```bash
+   mysql -u root -p
+   CREATE DATABASE your_database;
+   CREATE USER 'your_user'@'localhost' IDENTIFIED BY 'your_password';
+   GRANT ALL PRIVILEGES ON your_database.* TO 'your_user'@'localhost';
+   ```
 
-POST /api/leads.php
-- Create lead: http://localhost:8080/lawyerdotcom/api/leads.php
-  Body: {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "phone": "1234567890"
-  }
+3. Run setup scripts
+   ```bash
+   ./setup_db.sh
+   ```
 
-PUT /api/leads.php?id=1
-- Update lead: http://localhost:8080/lawyerdotcom/api/leads.php?id=1
-  Body: {
-    "name": "John Smith",
-    "status": "qualified"
-  }
+4. Verify database setup
+   ```bash
+   mysql -u your_user -p your_database
+   SHOW TABLES;
+   ```
 
-DELETE /api/leads.php?id=1
-- Delete lead: http://localhost:8080/lawyerdotcom/api/leads.php?id=1
+## 2. API Development
 
-## Users API
+### Summary
+- Set up PHP environment
+- Create database connection
+- Implement CRUD endpoints
 
-GET /api/users.php
-- Get all users: http://localhost:8080/lawyerdotcom/api/users.php
-- Get specific user: http://localhost:8080/lawyerdotcom/api/users.php?id=1
+### Detailed Steps
+1. Install PHP and dependencies
+   ```bash
+   composer install
+   ```
 
-POST /api/users.php
-- Create user: http://localhost:8080/lawyerdotcom/api/users.php
-  Body: {
-    "username": "newuser",
-    "email": "user@example.com",
-    "password": "securepassword"
-  }
+2. Configure database connection
+   Edit `db_connect.php` with your credentials:
+   ```php
+   $host = "localhost";
+   $user = "your_user";
+   $password = "your_password";
+   $database = "your_database";
+   ```
 
-PUT /api/users.php?id=1
-- Update user: http://localhost:8080/lawyerdotcom/api/users.php?id=1
-  Body: {
-    "email": "newemail@example.com",
-    "role": "admin"
-  }
+3. Available API Endpoints
+   - GET `/api/items` - Retrieve all items
+   - POST `/api/items` - Create new item
+   - PUT `/api/items/{id}` - Update item
+   - DELETE `/api/items/{id}` - Delete item
 
-DELETE /api/users.php?id=1
-- Delete user: http://localhost:8080/lawyerdotcom/api/users.php?id=1
+4. Test API endpoints
+   ```bash
+   curl http://localhost:8000/api/items
+   ```
 
-# Sales CRM Platform
+## 3. Frontend Development
 
-## Deployment Information
+### Summary
+- Create HTML structure
+- Style with CSS
+- Implement JavaScript functionality
 
-### Database Configuration
-The application uses JawsDB MySQL on Heroku. Database credentials are automatically configured through the `JAWSDB_URL` environment variable.
+### Detailed Steps
+1. HTML Structure
+   - Create basic layout in `index.html`
+   - Set up navigation and content areas
+   - Add forms and display elements
 
-### Deployment Steps
-1. Push changes to Heroku:
+2. CSS Styling
+   - Implement responsive design
+   - Style forms and buttons
+   - Add animations and transitions
+
+3. JavaScript Implementation
+   - Set up API calls
+   - Handle form submissions
+   - Implement dynamic content updates
+   - Add error handling
+
+## 4. Deployment
+
+### Summary
+- Prepare application for Heroku
+- Configure database
+- Deploy application
+
+### Detailed Steps
+1. Heroku Setup
+   ```bash
+   heroku login
+   heroku create your-app-name
+   ```
+
+2. Configure Database
+   ```bash
+   heroku addons:create cleardb:ignite
+   heroku config:get CLEARDB_DATABASE_URL
+   ```
+
+3. Update Configuration
+   - Set environment variables
+   - Update database connection settings
+   - Configure Procfile
+
+4. Deploy Application
    ```bash
    git push heroku main
+   heroku open
    ```
 
-2. Update database schema (if changed):
-   ```bash
-   ./deploy_db.sh
-   ```
+## Development Tips
+- Always backup database before major changes
+- Use version control for all code changes
+- Test API endpoints thoroughly
+- Follow security best practices
+- Keep dependencies updated
 
-3. View application logs:
-   ```bash
-   heroku logs --tail
-   ```
+## Troubleshooting
+- Check database connection settings
+- Verify API endpoint URLs
+- Review server logs for errors
+- Ensure proper environment variables
 
-### Important URLs
-- Application: https://sales-crm-platform-by-udit.herokuapp.com
-- Database Management: Available through JawsDB dashboard in Heroku
+## Contributing
+Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests.
 
-### Environment Variables
-- `JAWSDB_URL`: Database connection string (automatically set by JawsDB addon)
-
-### Troubleshooting
-- Database connection issues: Check `heroku config | grep JAWSDB_URL`
-- Application errors: Check `heroku logs --tail`
-- Restart application: `heroku restart`
-
-### Maintenance
-- Regular backups are handled by JawsDB
-- Monitor database usage through Heroku dashboard
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details
