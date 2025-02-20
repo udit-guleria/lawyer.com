@@ -34,8 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add reset handler for new lead button
     document.querySelector('[data-bs-target="#leadModal"]').addEventListener('click', resetLeadModal);
-
-    initializeTabs();
 });
 
 async function loadLeads() {
@@ -399,64 +397,6 @@ function resetLeadModal() {
     // Reset save button text
     const saveButton = document.getElementById('saveLead');
     saveButton.innerHTML = '<i class="bi bi-plus-circle me-1"></i>Create Lead';
-}
-
-function initializeTabs() {
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove active class from all buttons and contents
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
-
-            // Add active class to clicked button and corresponding content
-            button.classList.add('active');
-            const tabId = `${button.dataset.tab}-tab`;
-            document.getElementById(tabId).classList.add('active');
-
-            // If task-cards tab is selected, load the task cards
-            if (button.dataset.tab === 'task-cards') {
-                loadTaskCards();
-            }
-        });
-    });
-}
-
-function loadTaskCards() {
-    const container = document.querySelector('.task-cards-container');
-    
-    // Clear existing cards
-    container.innerHTML = '';
-    
-    // Fetch task cards from the server
-    fetch('/api/tasks.php?view=cards')
-        .then(response => response.json())
-        .then(tasks => {
-            tasks.forEach(task => {
-                const card = createTaskCard(task);
-                container.appendChild(card);
-            });
-        })
-        .catch(error => {
-            console.error('Error loading task cards:', error);
-            container.innerHTML = '<p>Error loading task cards. Please try again later.</p>';
-        });
-}
-
-function createTaskCard(task) {
-    const card = document.createElement('div');
-    card.className = 'task-card';
-    card.innerHTML = `
-        <h3>${task.title}</h3>
-        <p>${task.description}</p>
-        <div class="task-card-footer">
-            <span class="due-date">Due: ${task.due_date}</span>
-            <span class="status ${task.status.toLowerCase()}">${task.status}</span>
-        </div>
-    `;
-    return card;
 }
 
 // ... rest of existing code ... 
