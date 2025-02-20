@@ -75,16 +75,25 @@ async function loadLeads() {
 
 async function loadTasks() {
     try {
-        const [tasksResponse, leadsResponse] = await Promise.all([
+        // Add users to the Promise.all to fetch creator information
+        const [tasksResponse, leadsResponse, usersResponse] = await Promise.all([
             fetch('api/tasks.php'),
-            fetch('api/leads.php')
+            fetch('api/leads.php'),
+            fetch('api/users.php')
         ]);
         
         const tasks = await tasksResponse.json();
         const leads = await leadsResponse.json();
+        const users = await usersResponse.json();
         
+        // Create maps for both leads and users
         const leadMap = leads.reduce((map, lead) => {
             map[lead.id] = lead.name;
+            return map;
+        }, {});
+        
+        const userMap = users.reduce((map, user) => {
+            map[user.id] = user.name;
             return map;
         }, {});
 
@@ -113,9 +122,14 @@ async function loadTasks() {
                                 </ul>
                             </div>
                         </div>
-                        <p class="card-text text-muted small mb-2">
-                            <i class="bi bi-person me-1"></i>${leadMap[task.lead_id] || 'Unknown Lead'}
-                        </p>
+                        <div class="task-meta mb-3">
+                            <p class="card-text text-muted small mb-1">
+                                <i class="bi bi-person me-1"></i>${leadMap[task.lead_id] || 'Unknown Lead'}
+                            </p>
+                            <p class="card-text text-muted small mb-0">
+                                <i class="bi bi-person-badge me-1"></i>Created by: ${userMap[task.created_by] || 'Unknown User'}
+                            </p>
+                        </div>
                         <div class="d-flex gap-2 mb-3">
                             <span class="badge ${getStatusBadgeClass(task.status)}">${task.status}</span>
                             <span class="badge bg-${task.priority === 'HIGH' ? 'danger' : 'warning'}">${task.priority}</span>
