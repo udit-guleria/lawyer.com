@@ -1,8 +1,8 @@
 USE ylzbr43ulkp101ul;
 
 -- Check if database exists, if not create it
-CREATE DATABASE IF NOT EXISTS crm_system;
-USE crm_system;
+CREATE DATABASE IF NOT EXISTS ylzbr43ulkp101ul;
+USE ylzbr43ulkp101ul;
 
 -- Create tables if they don't exist
 CREATE TABLE IF NOT EXISTS User (

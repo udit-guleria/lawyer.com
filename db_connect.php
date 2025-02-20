@@ -6,13 +6,17 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$host = 'localhost';
-$dbname = 'crm_system';
-$username = 'root';  // Change if different
-$password = '';      // Change if different
+// You can still use getenv() if the URL is set as an environment variable
+// Or use these credentials directly for testing
+$server = "ryvdxs57afyjk41z.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+$username = "mfwvnwktuf2uj8vt";
+$password = "lm3klk78ejzg7qa7";
+$db = "ylzbr43ulkp101ul";
+
+$conn = new mysqli($server, $username, $password, $db);
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo = new PDO("mysql:host=$server;dbname=$db", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch(PDOException $e) {
