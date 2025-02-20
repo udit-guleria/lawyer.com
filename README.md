@@ -85,28 +85,79 @@ CREATE TABLE Task_Assignees (
 ## 2. API Development
 
 ### Summary
-The API layer provides RESTful endpoints for interacting with the database. Built with PHP, it handles data validation, processing, and response formatting.
+The API layer provides RESTful endpoints for managing users, leads, and tasks in the CRM system. Built with PHP, it handles data validation, processing, and response formatting using PDO for secure database operations.
 
 ### Implementation Details
-1. **Environment Setup**: The application requires PHP 7.4+ and uses Composer for dependency management. Key dependencies are managed through composer.json.
+1. **Environment Setup**
+   - PHP with PDO extension for database operations
+   - JSON response formatting
+   - Centralized database connection management
 
-2. **Database Connection**: Connection management is handled through a centralized configuration file, supporting both development and production environments.
+2. **API Endpoints**
 
-3. **API Endpoints**:
-   - **Items Management**:
-     - List Items: Retrieves paginated list of available items
-     - Item Details: Fetches detailed information for specific items
-     - Create/Update Items: Handles item creation and modifications
-     - Delete Items: Manages item removal with proper validation
-   
-   - **User Operations**:
-     - Authentication: Handles user login and session management
-     - Account Management: Supports user registration and profile updates
-   
-   - **Order Processing**:
-     - Order Creation: Processes new orders with validation
-     - Order Status: Tracks and updates order status
-     - Order History: Retrieves user order history
+   #### User Management (`/api/users.php`)
+   - **GET /api/users**
+     - List all users (returns id, name, email, type)
+     - Filter by email: `?email=user@example.com`
+   - **POST /api/users**
+     - Create new user with UUID
+     - Required fields: name, email, type, password
+     - Password is hashed using SHA2
+   - **PUT /api/users**
+     - Update user details by email
+     - Updateable fields: name, type
+   - **DELETE /api/users**
+     - Delete user by email parameter
+
+   #### Lead Management (`/api/leads.php`)
+   - **GET /api/leads**
+     - List all leads
+     - Filter by email: `?email=lead@example.com`
+   - **POST /api/leads**
+     - Create new lead with UUID
+     - Required fields: name, email, phone, industry, company
+     - Optional: status (defaults to 'NEW')
+   - **PUT /api/leads**
+     - Update lead by email
+     - Updateable fields: name, phone, industry, company, status
+   - **DELETE /api/leads**
+     - Delete lead by email parameter
+
+   #### Task Management (`/api/tasks.php`)
+   - **GET /api/tasks**
+     - List all tasks with assignees
+     - Get specific task: `?id=task_uuid`
+   - **POST /api/tasks**
+     - Create new task with UUID
+     - Required fields: title, due_date
+     - Optional fields: description, lead_id, created_by, priority, status
+     - Supports multiple assignees through Task_Assignees table
+   - **PUT /api/tasks**
+     - Update task by ID
+     - Updateable fields: title, description, lead_id, due_date, priority, status
+     - Can update task assignees
+   - **DELETE /api/tasks**
+     - Delete task by ID parameter
+
+### Data Validation
+- Input validation for required fields
+- Date format validation for task due dates
+- Email format validation
+- Status and type enumeration validation
+- Transaction management for complex operations
+
+### Error Handling
+- HTTP status codes for different scenarios
+- 400: Bad Request (invalid input)
+- 404: Not Found (resource doesn't exist)
+- 500: Server Error (database issues)
+- Detailed error messages in JSON format
+
+### Security Features
+- Password hashing using SHA2
+- PDO prepared statements for SQL injection prevention
+- Limited exposure of sensitive data (password fields excluded from GET responses)
+- Transaction management for data integrity
 
 ## 3. Frontend Development
 
