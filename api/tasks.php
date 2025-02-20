@@ -6,6 +6,28 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 switch($method) {
     case 'GET':
+        if (isset($_GET['view']) && $_GET['view'] === 'cards') {
+            // Fetch tasks for card view
+            $query = "SELECT * FROM tasks WHERE user_id = ? ORDER BY due_date ASC";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $tasks = array();
+            while ($row = $result->fetch_assoc()) {
+                $tasks[] = array(
+                    'id' => $row['id'],
+                    'title' => $row['title'],
+                    'description' => $row['description'],
+                    'status' => $row['status'],
+                    'due_date' => $row['due_date']
+                );
+            }
+            
+            echo json_encode($tasks);
+            exit;
+        }
         $id = isset($_GET['id']) ? $_GET['id'] : null;
         if ($id) {
             $stmt = $pdo->prepare("
