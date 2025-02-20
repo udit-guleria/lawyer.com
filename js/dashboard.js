@@ -132,7 +132,7 @@ async function loadTasks() {
                                 <span class="badge bg-${task.priority === 'HIGH' ? 'danger' : 'warning'}">${task.priority}</span>
                             </div>
                             <span class="text-muted small">
-                                <i class="bi bi-calendar me-1"></i>${task.due_date}
+                                <i class="bi bi-calendar me-1"></i>Due: ${task.due_date}
                             </span>
                         </div>
                         <p class="card-text text-muted small mb-0">
