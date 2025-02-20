@@ -6,20 +6,37 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// You can still use getenv() if the URL is set as an environment variable
-// Or use these credentials directly for testing
-$server = "ryvdxs57afyjk41z.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$username = "mfwvnwktuf2uj8vt";
-$password = "lm3klk78ejzg7qa7";
-$db = "ylzbr43ulkp101ul";
+// Get database URL from environment variable
+$db_url = getenv("JAWSDB_URL") ?: getenv("CLEARDB_DATABASE_URL");
 
-$conn = new mysqli($server, $username, $password, $db);
+if (!$db_url) {
+    die(json_encode([
+        'error' => 'Database URL not found',
+        'message' => 'Database configuration is missing'
+    ]));
+}
+
+$url = parse_url($db_url);
+
+$server = $url["host"];
+$username = $url["user"];
+$password = $url["pass"];
+$db = substr($url["path"], 1);
 
 try {
+    // Create connection
+    $conn = new mysqli($server, $username, $password, $db);
+    
+    // Check connection
+    if ($conn->connect_error) {
+        throw new Exception($conn->connect_error);
+    }
+
+    // Create PDO connection
     $pdo = new PDO("mysql:host=$server;dbname=$db", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-} catch(PDOException $e) {
+} catch(Exception $e) {
     die(json_encode([
         'error' => 'Connection failed',
         'message' => $e->getMessage()
