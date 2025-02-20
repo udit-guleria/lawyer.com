@@ -18,56 +18,58 @@ The database layer consists of a MySQL database with tables for users, items, or
 ### Database Structure
 The database consists of the following tables:
 
-#### Users Table
-Stores user account information including credentials and timestamps.
+#### User Table
+Stores information about system users including sales representatives, managers, and administrators.
 ```sql
-CREATE TABLE users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE User (
+    id VARCHAR(36) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    type ENUM('SALES REP', 'MANAGER', 'ADMIN') NOT NULL,
+    password VARCHAR(255) NULL
 );
 ```
 
-#### Items Table
-Contains product information with references to sellers (users).
+#### Leads Table
+Manages potential customer information and tracks their status in the sales pipeline.
 ```sql
-CREATE TABLE items (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
+CREATE TABLE Leads (
+    id VARCHAR(36) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    industry VARCHAR(255) NOT NULL,
+    company VARCHAR(255) NOT NULL,
+    status ENUM('NEW', 'CONTACTED', 'PROPOSAL', 'NEGOTIATION', 'CLOSED-WON', 'CLOSED-LOST') NOT NULL DEFAULT 'NEW'
+);
+```
+
+#### Task Table
+Tracks tasks associated with leads and assigns them to users.
+```sql
+CREATE TABLE Task (
+    id VARCHAR(36) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
     description TEXT,
-    price DECIMAL(10,2) NOT NULL,
-    user_id INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    lead_id VARCHAR(36) NOT NULL,
+    created_by VARCHAR(36),
+    due_date DATE,
+    priority ENUM('LOW', 'MEDIUM', 'HIGH') NOT NULL DEFAULT 'MEDIUM',
+    status ENUM('NEW', 'IN-PROGRESS', 'COMPLETED', 'DROPPED', 'OVERDUE') NOT NULL DEFAULT 'NEW',
+    FOREIGN KEY (lead_id) REFERENCES Leads(id) ON DELETE CASCADE,
+    FOREIGN KEY (created_by) REFERENCES User(id) ON DELETE SET NULL
 );
 ```
 
-#### Orders Table
-Tracks customer orders with their status and total amounts.
+#### Task_Assignees Table
+Junction table managing the many-to-many relationship between tasks and assigned users.
 ```sql
-CREATE TABLE orders (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    total_amount DECIMAL(10,2) NOT NULL,
-    status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-```
-
-#### Order_Items Table
-Junction table linking orders to items with quantity and price information.
-```sql
-CREATE TABLE order_items (
-    order_id INT,
-    item_id INT,
-    quantity INT NOT NULL,
-    price_at_time DECIMAL(10,2) NOT NULL,
-    PRIMARY KEY (order_id, item_id),
-    FOREIGN KEY (order_id) REFERENCES orders(id),
-    FOREIGN KEY (item_id) REFERENCES items(id)
+CREATE TABLE Task_Assignees (
+    task_id VARCHAR(36),
+    user_id VARCHAR(36),
+    PRIMARY KEY (task_id, user_id),
+    FOREIGN KEY (task_id) REFERENCES Task(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
 );
 ```
 
