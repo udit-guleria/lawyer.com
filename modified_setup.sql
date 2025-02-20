@@ -1,8 +1,8 @@
-USE ylzbr43ulkp101ul;
+USE ${DB_NAME};
 
 -- Check if database exists, if not create it
-CREATE DATABASE IF NOT EXISTS ylzbr43ulkp101ul;
-USE ylzbr43ulkp101ul;
+CREATE DATABASE IF NOT EXISTS ${DB_NAME};
+USE ${DB_NAME};
 
 -- Create tables if they don't exist
 CREATE TABLE IF NOT EXISTS User (

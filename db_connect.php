@@ -9,13 +9,6 @@ error_reporting(E_ALL);
 // Get database URL from environment variable
 $db_url = getenv("JAWSDB_URL") ?: getenv("CLEARDB_DATABASE_URL");
 
-if (!$db_url) {
-    die(json_encode([
-        'error' => 'Database URL not found',
-        'message' => 'Database configuration is missing'
-    ]));
-}
-
 $url = parse_url($db_url);
 
 $server = $url["host"];

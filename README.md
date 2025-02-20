@@ -73,7 +73,3 @@ PUT /api/users.php?id=1
 
 DELETE /api/users.php?id=1
 - Delete user: http://localhost:8080/lawyerdotcom/api/users.php?id=1
-
-# Heroku Database
-
-mysql://mfwvnwktuf2uj8vt:lm3klk78ejzg7qa7@ryvdxs57afyjk41z.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/ylzbr43ulkp101ul
